@@ -1,59 +1,63 @@
-function calculate() {
-  const billEl = parseFloat(document.getElementById("bill").value) || 0;
-  const peopleEl = parseInt(document.getElementById("number").value) || 1;
-  const taxEl = parseFloat(document.getElementById("tax").value) || 0;
-  const tipsEl = parseFloat(document.getElementById("tips").value) || 0;
-
-  const taxAmount = (billEl * taxEl) / 100;
-  const tipsAmount = (billEl * tipsEl) / 100;
-  const totalAmount = taxAmount + tipsAmount + billEl;
-  const perPerson = totalAmount / peopleEl;
-
-  document.getElementById("subtotal").textContent = `₹${billEl.toFixed(2)}`;
-  document.getElementById("tax-amount").textContent =
-    `₹${taxAmount.toFixed(2)}`;
-  document.getElementById("tips-amount").textContent =
-    `₹${tipsAmount.toFixed(2)}`;
-  document.getElementById("total-amount").textContent =
-    `₹${totalAmount.toFixed(2)}`;
-  document.getElementById("per-person-amount").textContent =
-    `₹${perPerson.toFixed(2)}`;
-  document.getElementById("per-person").textContent = peopleEl;
-}
-
-function decreasePeople() {
-  const peopleEl = document.getElementById("number");
-  peopleEl.value = parseInt(peopleEl.value) - 1;
+function UpdateTax() {
+  const tax = document.getElementById("tax").value;
+  document.getElementById("tax-label").textContent = tax + "%";
   calculate();
 }
 
+//
+function UpdateTip() {
+  const tip = document.getElementById("tip").value;
+  document.getElementById("tip-label").textContent = tip + "%";
+  calculate();
+}
+//
 function increasePeople() {
-  const peopleEl = document.getElementById("number");
-  peopleEl.value = parseInt(peopleEl.value) + 1;
+  const peopleInput = document.getElementById("people");
+  peopleInput.value = parseInt(peopleInput.value) + 1;
   calculate();
 }
+//
+function decreasePeople() {
+  const peopleInput = document.getElementById("people");
 
-function updateTax() {
-  const taxEl = document.getElementById("tax").value;
-  document.getElementById("tax-per").textContent = `${taxEl}%`;
-  calculate();
+  if (parseInt(peopleInput.value)) {
+    peopleInput.value = parseInt(peopleInput.value) - 1;
+    calculate();
+  }
 }
 
-function updateTips() {
-  const tipsEl = document.getElementById("tips").value;
-  document.getElementById("tips-per").textContent = `${tipsEl}%`;
-  calculate();
-}
-
-function reset() {
+function restCalculator() {
   document.getElementById("bill").value = "";
-  document.getElementById("number").value = 2;
+  document.getElementById("tip").value = 10;
   document.getElementById("tax").value = 8;
-  document.getElementById("tips").value = 10;
+  document.getElementById("people").value = 2;
 
-  document.getElementById("tax-per").innerText = "8%";
-  document.getElementById("tips-per").innerText = "10%";
+  document.getElementById("tip-label").textContent = "8%";
+  document.getElementById("tax-label").textContent = "10%";
 
   calculate();
 }
+
+function calculate() {
+  const bill = parseFloat(document.getElementById("bill").value) || 0;
+  const tax = parseFloat(document.getElementById("tax").value) || 0;
+  const people = parseInt(document.getElementById("people").value) || 1;
+  const tip = parseFloat(document.getElementById("tip").value) || 0;
+
+  const taxAmount = (bill * tax) / 100;
+
+  const tipAmount = (bill * tip) / 100;
+
+  const total = taxAmount + tipAmount + bill;
+
+  const PerPerson = total / people;
+
+  document.getElementById("sub-total").textContent = `₹${bill.toFixed(2)}`;
+  document.getElementById("tipAmount").textContent = `₹${tipAmount.toFixed(2)}`;
+  document.getElementById("taxAmount").textContent = `₹${taxAmount.toFixed(2)}`;
+  document.getElementById("PerPerson").textContent = `₹${PerPerson.toFixed(2)}`;
+  document.getElementById("total").textContent = `₹${total.toFixed(2)}`;
+  document.getElementById("count").textContent = people;
+}
+
 calculate();
